@@ -1,0 +1,112 @@
+/**
+ * translate degree to radian by referred mathematic expression
+ *
+ * @param  {type} degree
+ * @return {type}
+ */
+function degree_to_radian(degree) {
+  var pi = Math.PI; //referred math expression
+  return degree * (pi/180);
+}
+/**
+ * calculation of the distance from two points (from 'point-js' and 'pointcloud.js') by using the given latitude and longitude
+ *
+ * @param  {type} [long1
+ * @param  {type} lat1]  first point
+ * @param  {type} [long2
+ * @param  {type} lat2]  second point
+ * @return {type}
+ */
+function distanceCalc([long1,lat1],[long2,lat2]){
+  var RadEarth = 6371e3; // metres
+  var φ1 = degree_to_radian(lat1);
+  var φ2 = degree_to_radian(lat2);
+  var Δφ = degree_to_radian(lat2-lat1);
+  var Δλ = degree_to_radian(long2-long1);
+  var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  var d = RadEarth * c; // in metres
+  return(d); //calculate the distance from two points by using the given latitude and longitude
+}
+/**
+ * calculate the bearing in relation to the given 'point-js'-file of the location and the 'pointcloud.js'-file as the direction
+ *
+ * @param  {type} [long1]
+ * @param  {type} lat1]  beginning point
+ * @param  {type} [long2
+ * @param  {type} lat2]  end point
+ * @return {type}
+ */
+function bearing ([long1,lat1],[long2,lat2]){
+  var lat1 = degree_to_radian(lat1);
+  var lat2 = degree_to_radian(lat2);
+  var λ1 = degree_to_radian(long1);
+  var λ2 = degree_to_radian(long2);
+  var y = Math.sin(λ2-λ1) * Math.cos(lat2);
+  console.log(y);
+  var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(λ2-λ1);
+  console.log(x);
+  var bearing = radian_to_degree(Math.atan2(y, x));
+  console.log(bearing);
+  var bearingNew = (bearing + 360) % 360;
+  return bearingNew;
+}
+/**
+ * translate radian to degree by referred mathematic expression
+ *
+ * @param  {type} radian
+ * @return {type}
+ */
+function radian_to_degree(radian) {
+  var pi = Math.PI; //referred math expression
+  return radian * (180/pi);
+}
+/**
+ * converting radians to degree with a distance by 45° to each other
+ *
+ * @param  {type} degree
+ * @return {type}
+ */
+function convert(degree){console.log(degree);
+	if (degree < 22.5) {console.log("N"); return "N"; }
+	if (degree < 67.5) {console.log("NO");return "NO"; }
+	if (degree < 112.5) {console.log("O");return "O"; }
+	if (degree < 157.5) {console.log("SO");return "SO"; }
+	if (degree < 202.5) {console.log("S");return "S"; }
+	if (degree < 247.5) {console.log("SW");return "SW"; }
+	if (degree < 292.5) {console.log("W");return "W"; }
+	if (degree < 337.5) {console.log("NW");return "NW"; }
+	if (degree <= 360) {console.log("N");return "N"; }
+}
+/**
+ *translate the results into an array
+ */
+var resultate = [[distanceCalc(point, pointcloud[0]),bearing(point, pointcloud[0])],
+                 [distanceCalc(point, pointcloud[1]),bearing(point, pointcloud[1])],
+                 [distanceCalc(point, pointcloud[2]),bearing(point, pointcloud[2])],
+                 [distanceCalc(point, pointcloud[3]),bearing(point, pointcloud[3])],
+                 [distanceCalc(point, pointcloud[4]),bearing(point, pointcloud[4])]];
+/**
+ * sort the results in order of their size from up to down
+ *
+ * @param  {type} a beginning of the sorting
+ * @param  {type} b end of the sorting
+ * @return {type}
+ */
+function numSort(a,b){
+  return(a[0]-b[0]); //order to sort the array by starting at point '0'
+}
+resultate.sort(numSort);
+console.log(resultate);
+/**
+ * short expression to give out the 5 Points with their distance and bearing
+ *
+ * @param  {type} var i = 0; i < resultate.length; i++ //main part to sort the results
+ * @return {type}
+ */
+for (var i = 0; i < resultate.length; i++) {
+  var distance = resultate[i][0]; //sorted distance values
+  var bearing = resultate[i][1];  //sorted bearing values
+  bearing = convert(bearing);     //converted bearing values into cardinal points
+  document.getElementById("GeoSoftware"+i).innerHTML = "distance: "+distance+"metres"+", "+"bearing: "+bearing;
+}
