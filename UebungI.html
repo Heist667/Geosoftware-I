@@ -1,6 +1,6 @@
 /**
  * translate degree to radian by referred mathematic expression
- *
+ *khkhjklhl
  * @param  {type} degree
  * @return {type}
  */
@@ -29,7 +29,7 @@ function distanceCalc([long1,lat1],[long2,lat2]){
   return(d); //calculate the distance from two points by using the given latitude and longitude
 }
 /**
- * calculate the bearing in relation to the given 'point-js'-file of the location and the 'pointcloud.js'-file as the direction
+ * calculate the bearing in relation to the given 'polygon.js'-file of the location and the 'route.js'-file as the direction
  *
  * @param  {type} [long1]
  * @param  {type} lat1]  beginning point
@@ -63,7 +63,7 @@ function radian_to_degree(radian) {
 }
 /**
  * converting radians to degree with a distance by 45° to each other
- *
+ *kjljll
  * @param  {type} degree
  * @return {type}
  */
@@ -81,11 +81,11 @@ function convert(degree){console.log(degree);
 /**
  *translate the results into an array
  */
-var resultate = [[distanceCalc(point, pointcloud[0]),bearing(point, pointcloud[0])],
-                 [distanceCalc(point, pointcloud[1]),bearing(point, pointcloud[1])],
-                 [distanceCalc(point, pointcloud[2]),bearing(point, pointcloud[2])],
-                 [distanceCalc(point, pointcloud[3]),bearing(point, pointcloud[3])],
-                 [distanceCalc(point, pointcloud[4]),bearing(point, pointcloud[4])]];
+var resultate = [[distanceCalc(polygon, route[0]),bearing(polygon, route[0])],
+                 [distanceCalc(polygon, route[1]),bearing(polygon, route[1])],
+                 [distanceCalc(polygon, route[2]),bearing(polygon, route[2])],
+                 [distanceCalc(polygon, route[3]),bearing(polygon, route[3])],
+                 [distanceCalc(polygon, route[4]),bearing(polygon, route[4])]];
 /**
  * sort the results in order of their size from up to down
  *
